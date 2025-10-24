@@ -1,0 +1,48 @@
+<!-- Page Header -->
+<div class="contacts-header">
+  <h2>Emergency Contacts</h2>
+
+  <div class="header-actions">
+    <input
+      type="text"
+      placeholder="Search"
+      class="search-bar"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange($event)"
+    />
+    <button class="btn add-contact" (click)="addContact()">add new contact</button>
+  </div>
+</div>
+
+<!-- Contacts Table -->
+<div class="contacts-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Hotline</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Loop contacts -->
+      <ng-container *ngIf="(filteredContacts$ | async) as contacts">
+        <tr *ngFor="let contact of contacts">
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.hotline }}</td>
+          <td>
+            <button class="btn edit" (click)="editContact(contact)">Edit</button>
+            <button class="btn delete" (click)="confirmDelete(contact.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <!-- If empty -->
+        <tr *ngIf="contacts.length === 0">
+          <td colspan="3" class="no-data">No Emergency Hotline Found</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,226 @@
+.page { display:flex; 
+  flex-direction:column; 
+  gap:12px;
+}
+
+.page-header { 
+  display:flex; 
+  justify-content:space-between; 
+  align-items:flex-start; 
+  gap:12px; 
+  flex-wrap:wrap; 
+}
+  h1 {
+    font-size: 1.45rem;
+    margin: 0;
+    color: #2b2b2b;
+    font-weight: 700;
+  }
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  ion-chip {
+    --background: transparent;
+    width: 90px; /* uniform width */
+    height: 2.2rem;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    ion-label {
+      pointer-events: none;
+    }
+
+    &:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    &.selected {
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.08);
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+  }
+  
+  /* Pastel category colors */
+  .chip-theft {
+    background: #dce5ff;
+    color: #1d2b69;
+  }
+  .chip-assault {
+    background: #ffe6ba;
+    color: #5e3c00;
+  }
+  .chip-flood {
+    background: #d5f5fa;
+    color: #104c5f;
+  }
+  .chip-car {
+    background: #ffd1c5;
+    color: #631a11;
+  }
+  .chip-blocked {
+    background: #fffecf;
+    color: #4a4a00;
+  }
+  .chip-kid {
+    background: #e8d1f7;
+    color: #421c66;
+  }
+  .chip-fire {
+    background: #ffe0d0;
+    color: #5b2100;
+  }
+  .chip-animal {
+    background: #f0d9be;
+    color: #4a2b00;
+  }
+  .chip-rob {
+    background: #d0efe3;
+    color: #083627;
+  }
+}
+
+/* ---------- BARANGAY SELECT + LEGEND ---------- */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .barangay-picker {
+    --background: #ffffff;
+    --color: #222;
+    --padding-start: 0.75rem;
+    --padding-end: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+    // width: 180px; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .legend-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    font-size: 0.8rem;
+
+    .legend-title {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      text-align: center;
+      color: #333;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      .box {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+      }
+      .low { background: #fff7b0; }
+      .med { background: #ffd4a3; }
+      .hi  { background: #ffb3b3; }
+    }
+  }
+
+  .user-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #f3f4f6;
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+    color: #333;
+    ion-icon {
+      font-size: 1.1rem;
+      color: #0c7a4f;
+    }
+  }
+}
+
+.box.low { 
+  background:#ffff00; 
+} 
+
+.box.med { 
+  background:#ffa500; 
+} 
+
+.box.hi { 
+  background:#ff0000; 
+}
+
+.tap-btn {
+  --background: #e6f0ff; /* soft pastel blue */
+  --background-activated: #d9e8ff;
+  --color: #1e3a8a;
+  --border-radius: 8px;
+  --padding-top: 0.3rem;
+  --padding-bottom: 0.3rem;
+  --padding-start: 0.75rem;
+  --padding-end: 0.75rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  height: 2rem;
+  line-height: 1rem;
+  text-transform: none;
+  letter-spacing: 0.2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+
+  &.button-solid {
+    background: var(--background);
+  }
+
+  &.button-clear {
+    background: transparent;
+  }
+}
+
+.map-card { 
+  border-radius:10px; 
+  overflow:hidden; 
+  box-shadow:0 8px 24px rgba(0,0,0,.08); 
+}
+
+.leaflet-host { 
+  height:72vh; 
+  width:100%; 
+}
+
+.coord-readout { 
+  font-size:.9rem; 
+  color:#374151; 
+}
+
+ion-item.rounded { 
+  --border-radius:10px; 
+  --inner-padding-start:12px; 
+  --inner-padding-end:12px; 
+  margin-bottom:10px; 
+}

@@ -1,0 +1,51 @@
+.sidebar {
+  width: 220px;
+  background: #2c7a7b; 
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  height: 100vh;
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+  }
+
+  .menu-list {
+    background: transparent !important; 
+  }
+
+  ion-item {
+    --background: transparent !important; 
+    --color: white; 
+    --padding-start: 12px;
+    --inner-padding-end: 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    transition: background 0.2s ease;
+
+    ion-icon {
+      margin-right: 10px;
+      color: inherit;
+    }
+
+    ion-label {
+      color: inherit;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  /* Highlighted active menu */
+  .active {
+    background: white !important;
+    --color: #2c7a7b !important;
+    font-weight: 600;
+  }
+}

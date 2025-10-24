@@ -1,0 +1,173 @@
+<div class="page">
+  <div class="reports-header">
+    <h1>Reports</h1>
+  </div>
+
+  <!-- Tabs + Filters -->
+  <div class="tabs-strip">
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab==='pending'" (click)="setTab('pending')">Pending</button>
+      <button class="tab" [class.active]="activeTab==='verified'" (click)="setTab('verified')">Verified</button>
+      <button class="tab" [class.active]="activeTab==='resolved'" (click)="setTab('resolved')">Resolved</button>
+      <button class="tab" [class.active]="activeTab==='rejected'" (click)="setTab('rejected')">Rejected</button>
+    </div>
+
+    <div class="right">
+      <!-- Super Admin: Barangay Filter -->
+      <select
+        *ngIf="role==='super_admin'"
+        class="brgy-filter"
+        [(ngModel)]="selectedBarangay"
+        (ngModelChange)="onBarangayChange($event)"
+        aria-label="Filter by Barangay"
+      >
+        <option *ngFor="let b of barangayOptions" [ngValue]="b">{{ b }}</option>
+      </select>
+
+      <button class="sort-btn" (click)="toggleSort()">
+        Sort: {{ sortOrder === 'desc' ? 'Newest → Oldest' : 'Oldest → Newest' }}
+      </button>
+
+      <input
+        class="search-bar"
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch(searchTerm)"
+        aria-label="Search reports"
+      />
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="reports-table">
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Landmark</th>
+            <th>{{ role === 'super_admin' ? 'Barangay' : 'Your Barangay' }}</th>
+            <th>Description</th>
+            <th class="col-date">Date</th>
+            <th class="col-time">Time</th>
+            <th class="col-actions">Actions</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let r of filtered$ | async">
+            <td><strong>{{ r.category }}</strong></td>
+            <td>{{ r.landmark || '—' }}</td>
+            <td>
+              <ng-container *ngIf="role === 'barangay_admin'; else superAdminLoc">
+                {{ barangay }}
+              </ng-container>
+              <ng-template #superAdminLoc>
+                {{ r.barangay || '—' }}
+              </ng-template>
+            </td>
+            <td class="truncate" [title]="r.description || ''">
+              {{ r.description || 'No description' }}
+            </td>
+            <td class="mono">{{ dateOnly(r.datetime) }}</td>
+            <td class="mono">{{ timeOnly(r.datetime) }}</td>
+            <td class="actions-cell">
+              <button class="btn view" (click)="openSummary(r)">View</button>
+              <button class="btn delete" (click)="deleteReport(r.id)">Delete</button>
+            </td>
+           <td>
+              <span [ngClass]="badgeClass(r.status)">{{ r.status || 'pending' }}</span>
+          </td>
+          </tr>
+
+          <tr *ngIf="(filtered$ | async)?.length === 0">
+            <td colspan="8" class="empty">No reports found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Incident Summary Modal ===== -->
+<ion-modal [isOpen]="summaryOpen" (didDismiss)="closeSummary()">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <div class="summary-box" *ngIf="selected">
+        <h2 class="summary-title">Incident Report</h2>
+
+        <div class="summary-grid">
+          <div class="summary-row" *ngFor="let field of [
+            {label:'Category', value:selected.category},
+            {label:'Barangay', value:selected.barangay},
+            {label:'Landmark', value:selected.landmark || '—'},
+            {label:'Location', value:selected.location || '—'},
+            {label:'Description', value:selected.description || 'No description provided'},
+            {label:'Date', value:dateOnly(selected.datetime)},
+            {label:'Time', value:timeOnly(selected.datetime)},
+            {label:'Coordinates', value:selected.lat && selected.lng ? selected.lat.toFixed(6)+', '+selected.lng.toFixed(6) : '—'}
+          ]">
+            <span class="label">{{ field.label }}</span>
+            <span class="value">{{ field.value }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="label">Status</span>
+            <span class="value">
+              <span [ngClass]="badgeClass(selected.status)">
+                {{ selected.status || 'pending' }}
+              </span>
+            </span>
+          </div>
+        </div>
+
+<div class="summary-actions">
+  <ion-button size="small" fill="solid" color="medium" (click)="closeSummary()">Close</ion-button>
+  <div class="grow"></div>
+
+  <!-- When inside RESOLVED tab, hide all actions -->
+  <ng-container *ngIf="activeTab !== 'resolved'">
+
+    <!-- When inside REJECTED tab, show Delete only -->
+    <ng-container *ngIf="activeTab === 'rejected'; else normalActions">
+      <ion-button
+        size="small"
+        color="danger"
+        (click)="confirmDelete(selected.id)">
+        Delete
+      </ion-button>
+    </ng-container>
+
+    <!-- Normal actions for other tabs -->
+    <ng-template #normalActions>
+      <!-- Reject -->
+      <ion-button
+        size="small"
+        color="danger"
+        *ngIf="(selected.status || 'pending') !== 'rejected'"
+        (click)="confirmStatusChange(selected, 'rejected')">
+        Reject
+      </ion-button>
+
+      <!-- Verify -->
+      <ion-button
+        size="small"
+        color="warning"
+        *ngIf="(selected.status || 'pending') === 'pending'"
+        (click)="confirmStatusChange(selected, 'verified')">
+        Verify
+      </ion-button>
+
+      <!-- Resolve -->
+      <ion-button
+        size="small"
+        color="success"
+        *ngIf="(selected.status || 'pending') !== 'resolved'"
+        (click)="confirmStatusChange(selected, 'resolved')">
+        Resolve
+      </ion-button>
+    </ng-template>
+  </ng-container>
+</div>

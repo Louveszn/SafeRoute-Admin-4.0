@@ -1,0 +1,55 @@
+<div class="sidebar">
+  <!-- Logo -->
+  <div class="logo">SafeRoute</div>
+
+  <!-- Menu List -->
+  <ion-list lines="none" class="menu-list">
+    <ion-item
+      button
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      detail="false"
+    >
+      <ion-icon name="grid-outline" slot="start"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-item>
+
+    <ion-item
+      button
+      routerLink="/reports"
+      routerLinkActive="active"
+      detail="false"
+    >
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      <ion-label>Reports</ion-label>
+    </ion-item>
+
+    <!-- Fixed: Always "Manage Zones" -> /superadmin -->
+    <ion-item
+      button
+      routerLink="/superadmin"
+      routerLinkActive="active"
+      detail="false"
+    >
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label>Manage Zones</ion-label>
+    </ion-item>
+
+    <ion-item
+      button
+      routerLink="/contacts"
+      routerLinkActive="active"
+      detail="false"
+    >
+      <ion-icon name="call-outline" slot="start"></ion-icon>
+      <ion-label>Emergency Hotlines</ion-label>
+    </ion-item>
+
+    <!-- Logout -->
+    <ion-item button detail="false" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>Log Out</ion-label>
+    </ion-item>
+  </ion-list>
+</div>

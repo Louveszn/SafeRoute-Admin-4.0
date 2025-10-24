@@ -1,0 +1,102 @@
+<!-- super-admin.page.html -->
+<div class="page">
+  <div class="page-header">
+    <div class="title-row">
+      <h1>Danger Zones</h1>
+
+      <!-- MULTI-SELECT CATEGORY CHIPS (same behavior as zones) -->
+      <div class="category-chips">
+        <ion-chip class="cat chip-theft"
+                  (click)="toggleCategory('Theft')"
+                  [outline]="!isSelected('Theft')"
+                  [class.selected]="isSelected('Theft')">
+          <ion-label>Theft</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-assault"
+                  (click)="toggleCategory('Assault')"
+                  [outline]="!isSelected('Assault')"
+                  [class.selected]="isSelected('Assault')">
+          <ion-label>Assault</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-flood"
+                  (click)="toggleCategory('Flood')"
+                  [outline]="!isSelected('Flood')"
+                  [class.selected]="isSelected('Flood')">
+          <ion-label>Flood</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-car"
+                  (click)="toggleCategory('Car Accident')"
+                  [outline]="!isSelected('Car Accident')"
+                  [class.selected]="isSelected('Car Accident')">
+          <ion-label>Car Accident</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-blocked"
+                  (click)="toggleCategory('Blocked Lane')"
+                  [outline]="!isSelected('Blocked Lane')"
+                  [class.selected]="isSelected('Blocked Lane')">
+          <ion-label>Blocked Lane</ion-label>
+        </ion-chip>
+
+                <ion-chip class="cat chip-kid"
+                  (click)="toggleCategory('Kidnapping')"
+                  [outline]="!isSelected('Kidnapping')"
+                  [class.selected]="isSelected('Kidnapping')">
+          <ion-label>Kidnapping</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-fire"
+                  (click)="toggleCategory('Fire')"
+                  [outline]="!isSelected('Fire')"
+                  [class.selected]="isSelected('Fire')">
+          <ion-label>Fire</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-animal"
+                  (click)="toggleCategory('Animal Attack')"
+                  [outline]="!isSelected('Animal Attack')"
+                  [class.selected]="isSelected('Animal Attack')">
+          <ion-label>Animal Attack</ion-label>
+        </ion-chip>
+
+        <ion-chip class="cat chip-rob"
+                  (click)="toggleCategory('Robbery')"
+                  [outline]="!isSelected('Robbery')"
+                  [class.selected]="isSelected('Robbery')">
+          <ion-label>Robbery</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+
+    <div class="right-actions">
+      <!-- Barangay filter (includes All) -->
+      <ion-item class="barangay-picker" lines="none">
+        <ion-label>Barangay </ion-label>
+        <ion-select [(ngModel)]="selectedBarangay"
+                    interface="popover"
+                    (ionChange)="onBarangayChange()">
+          <ion-select-option *ngFor="let b of barangayList" [value]="b">{{ b }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="legend-card">
+        <div class="legend-title">Cluster Danger Level</div>
+        <div class="legend-row"><span class="box low"></span> Low</div>
+        <div class="legend-row"><span class="box med"></span> Medium</div>
+        <div class="legend-row"><span class="box hi"></span> High</div>
+      </div>
+
+      <div class="user-pill">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <span>Hello, Super Admin</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-card">
+    <div id="map" class="leaflet-host"></div>
+  </div>
+</div>

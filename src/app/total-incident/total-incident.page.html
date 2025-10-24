@@ -1,0 +1,91 @@
+<div class="page">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="title">Total Incidents</h1>
+
+    <div class="right">
+      <!-- Super Admin: Barangay Filter -->
+      <select
+        *ngIf="role==='super_admin'"
+        class="brgy-filter"
+        [(ngModel)]="selectedBarangay"
+        (ngModelChange)="onBarangayChange($event)"
+        aria-label="Filter by Barangay"
+      >
+        <option *ngFor="let b of barangayOptions" [ngValue]="b">{{ b }}</option>
+      </select>
+
+      <!-- Sort BEFORE Search now -->
+      <button class="sort-btn" (click)="toggleSort()">
+        Sort: {{ sortOrder === 'desc' ? 'Newest → Oldest' : 'Oldest → Newest' }}
+      </button>
+
+      <input
+        class="search-bar"
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch(searchTerm)"
+        aria-label="Search reports"
+      />
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary" *ngIf="counts$ | async as c">
+    {{ c.total }} total / {{ c.pending }} pending / {{ c.verified }} verified /
+    {{ c.resolved }} resolved
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab === 'all'" (click)="setTab('all')">All</button>
+    <button class="tab" [class.active]="activeTab === 'pending'" (click)="setTab('pending')">
+      Pending
+    </button>
+    <button class="tab" [class.active]="activeTab === 'verified'" (click)="setTab('verified')">
+      Verified
+    </button>
+    <button class="tab" [class.active]="activeTab === 'resolved'" (click)="setTab('resolved')">
+      Resolved
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="reports-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let r of filtered$ | async">
+          <td><strong>{{ r.category }}</strong></td>
+          <!-- Show barangay or report location depending on role -->
+          <td>{{ role === 'barangay_admin' ? barangay : (r.barangay || r.location || '—') }}</td>
+          <td>{{ dateOnly(r.datetime) }}</td>
+          <td>{{ timeOnly(r.datetime) }}</td>
+          <td>
+            <span class="badge" [ngClass]="statusBadgeClass(r.status)">
+              {{ r.status || 'pending' | titlecase }}
+            </span>
+          </td>
+          <td class="row-actions">
+            <button class="btn delete" (click)="deleteReport(r.id)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="(filtered$ | async)?.length === 0">
+          <td colspan="6" class="empty">No reports found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

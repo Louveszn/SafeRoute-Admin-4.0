@@ -1,0 +1,92 @@
+.contacts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .search-bar {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .add-contact {
+      background: #2c7a7b;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/* Contacts Table */
+.contacts-table {
+  background: #fdfaf3;
+  padding: 15px;
+  border-radius: 10px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      text-align: left;
+      padding: 10px 8px;
+      font-size: 0.95rem;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+    }
+
+    td {
+      padding: 12px 8px;
+      font-size: 0.9rem;
+      color: #222;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 5px;
+      border: none;
+
+      &.edit {
+        background: #f9c77d;
+        color: #000;
+      }
+
+      &.delete {
+        background: #2c7a7b;
+        color: white;
+      }
+    }
+
+    /*Center the "No Emergency Hotline Found" message */
+    .no-data {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      padding: 20px;
+    }
+  }
+}
